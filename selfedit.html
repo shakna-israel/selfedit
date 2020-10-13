@@ -1,0 +1,114 @@
+<div id="c" contenteditable></div>
+<a id="p"></a>
+<script>
+	var c = document.getElementById('c');
+	var p = document.getElementById('p');
+
+	window.addEventListener('load', function() {
+		c.addEventListener('input', function(event) {
+			p.textContent = '';
+			p.href = '';
+
+			if(event.inputType != 'insertText' && event.inputType != 'deleteContentBackward') {
+
+				var children = c.querySelectorAll('*:not(br):not(pre)');
+
+				for(var i = 0; i < children.length; i++) {
+					// Titles
+					if(children[i].textContent[0] == '#') {
+						children[i].innerHTML = '<div><h1>' + children[i].textContent.slice(1) + '</h1></div>';
+					}
+
+					// List item
+					if(children[i].textContent[0] == '+') {
+						children[i].innerHTML = '<div><li>' + children[i].textContent.slice(1) + '</li></div>';
+					}
+
+					// Codeblocks
+					if(children[i].textContent.slice(0, 4).trim() === "") {
+						children[i].innerHTML = '<div><pre>' + children[i].innerText + '</pre></div>';
+					}
+
+					// Quotes
+					if(children[i].textContent[0] == '>') {
+						children[i].classList.add('quote');
+					} else {
+						children[i].classList.remove('quote');
+					}
+
+					// Links
+					links = children[i].textContent.match(/\[([\w\s\d]+)\]\(((?:\/|https?:\/\/)[\w\d./?=#]+)\)/);
+					if(!!links && links.length > 2) {
+						children[i].innerHTML = children[i].innerHTML
+							.replace(links[0], '<a href="' + links[2] + '">' + links[1] + '</a>');
+					}
+
+					// Bold
+					// BUG: Doesn't match correctly on multiples in same paragraph.
+					bold = children[i].textContent.match(/\*\*(.+)\*\*/);
+					if(!!bold && bold.length > 1) {
+						children[i].innerHTML = children[i].innerHTML
+							.replace(bold[0], "<strong>" + bold[1] + "</strong>");
+					}
+
+					// Italics
+					// BUG: Doesn't match correctly on multiples in same paragraph.
+					italics = children[i].textContent.match(/\*(.+)\*/);
+					if(!!italics && italics.length > 1) {
+						children[i].innerHTML = children[i].innerHTML
+							.replace(italics[0], "<em>" + italics[1] + "</em>");
+					}
+
+					// Underscore
+					// BUG: Doesn't match correctly on multiples in same paragraph.
+					underscore = children[i].textContent.match(/\_(.+)\_/);
+					if(!!underscore && underscore.length > 1) {
+						children[i].innerHTML = children[i].innerHTML
+							.replace(underscore[0], "<u>" + underscore[1] + "</u>");
+					}
+
+					// Strikethrough
+					// BUG: Doesn't match correctly on multiples in same paragraph.
+					strike = children[i].textContent.match(/\~(.+)\~/);
+					if(!!strike && strike.length > 1) {
+						children[i].innerHTML = children[i].innerHTML
+							.replace(strike[0], "<s>" + strike[1] + "</s>");
+					}
+
+					// TODO: Image Links
+				}
+				p.textContent = 'Copy me';
+				p.href = "data:text/html;base64," + btoa(c.parentElement.innerHTML);
+			}
+		}, false);
+	});
+</script>
+<style>
+#p {
+  display: block;
+  margin: 0 auto;
+  padding: 1.5em;
+  text-align: center;
+}
+
+#c {
+  width: 80%;
+  padding: 1em;
+  margin: 0 auto;
+  box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+  border-radius: 0.2em;
+  line-height:1.5;font-size: 1em;
+}
+
+pre {
+  font-family:Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace;
+  padding-left: 1.5em;
+}
+
+.quote {
+  padding-left: 0.5em;
+  border-left: 6px solid #ccc;
+  background-color: #f1f1f1;
+  
+}
+</style>
