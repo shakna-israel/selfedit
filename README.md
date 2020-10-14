@@ -52,6 +52,8 @@ A very small and incredibly hacky "parser" exists to convert a tiny subset of Ma
 
 + Strikethrough can be created like: `~mispelsldj text~`.
 
++ If an element is preceded with a backtick, it'll attempt to strip the formatting.
+
 ---
 
 ## Oh no! A hit a bug!

@@ -11,8 +11,8 @@
 
 			if(event.inputType != 'insertText' && event.inputType != 'deleteContentBackward') {
 
+				// Expand changes
 				var children = c.querySelectorAll('*:not(br):not(pre)');
-
 				for(var i = 0; i < children.length; i++) {
 					// Titles
 					if(children[i].textContent[0] == '#') {
@@ -77,6 +77,21 @@
 
 					// TODO: Image Links
 				}
+
+				// De-expand to allow reformatting...
+				var children = c.querySelectorAll('*:not(br)');
+				for(var i = 0; i < children.length; i++) {
+					if(children[i].tagName != 'DIV') {
+						// Strip formatting, plz.
+						if(children[i].innerText.trim()[0] == '`') {
+							var d = document.createElement('div');
+							d.innerText = children[i].innerText.trim().slice(1);
+							children[i].parentNode.replaceChild(d, children[i]);
+						}
+					}
+				}
+
+				// Produce payload...
 				p.textContent = 'Copy me';
 				p.href = "data:text/html;base64," + btoa(c.parentElement.innerHTML);
 			}
