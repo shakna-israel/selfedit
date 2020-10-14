@@ -36,6 +36,11 @@
 						children[i].classList.remove('quote');
 					}
 
+					// Horizontal Rule
+					if(children[i].textContent.trim() == '---') {
+						children[i].innerHTML = '<hr>';
+					}
+
 					// Links
 					links = children[i].textContent.match(/\[([\w\s\d]+)\]\(((?:\/|https?:\/\/)[\w\d./?=#]+)\)/);
 					if(!!links && links.length > 2) {

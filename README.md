@@ -52,6 +52,8 @@ A very small and incredibly hacky "parser" exists to convert a tiny subset of Ma
 
 + Strikethrough can be created like: `~mispelsldj text~`.
 
++ If a line is made up of `---` then it'll be converted into a horizontal rule.
+
 + If an element is preceded with a backtick, it'll attempt to strip the formatting.
 
 ---
