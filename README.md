@@ -58,7 +58,7 @@ A very small and incredibly hacky "parser" exists to convert a tiny subset of Ma
 
 ---
 
-## Oh no! A hit a bug!
+## Oh no! I hit a bug!
 
 ... Yep. There's lots. I'll be somewhat interested in fixing them, but a lot of them are hard to reproduce. You're going to have to help me out by telling me exactly what you did to break it. I made this for fun. I won't be putting in a lot of effort.
 
